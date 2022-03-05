@@ -54,6 +54,23 @@ class Planet:
         force_y = math.sin(theta) * force
         return force_x, force_y
 
+    def update_position(self, planets):
+        total_fx = total_fy = 0
+        for planet in planets:
+            if self == planet:
+                continue
+
+            fx, fy = self.attraction(planet)
+            total_fx += fx
+            total_fy += fy
+
+        self.x_vel += total_fx / self.mass * self.TimeStep  # we're going forward by time step every second
+        self.y_vel += total_fy / self.mass * self.TimeStep
+
+        self.x += self.x_vel * self.TimeStep
+        self.y += self.y_vel * self.TimeStep
+        self.orbit.append((self.x, self.y))  # draws the orbit of planet
+
 
 def main():
     run = True
@@ -82,6 +99,7 @@ def main():
                 run = False
 
         for planet in planets:
+            planet.update_position(planets)
             planet.draw(WIN)
 
         pygame.display.update()
