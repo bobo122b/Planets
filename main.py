@@ -18,6 +18,8 @@ class Planet:
         self.color = color
         self.mass = mass
 
+        self.sun = False
+
         self.x_vel = 0
         self.y_vel = 0
 
